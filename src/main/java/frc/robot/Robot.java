@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.sql.Time;
 
@@ -21,9 +22,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
  * directory.
  */
 public class Robot extends TimedRobot {
-  private final WPI_TalonFX m_leftDrive = new WPI_TalonFX(1);
-  private final WPI_TalonFX m_rightDrive = new WPI_TalonFX(2);
-  private final DifferentialDrive m_robotDrive = new DifferentialDrive(m_leftDrive, m_rightDrive);
+  private final Drivetrain m_drivetrain = new Drivetrain();
   private final XboxController m_Controller = new XboxController(0);
   private final Timer m_timer = new Timer();
 
@@ -40,11 +39,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    if (m_timer.get() < 2) { //for 2 seconds
-      m_robotDrive.arcadeDrive(0.5, 0.0, false); //make robot GO!!
-    } else {
-      m_robotDrive.stopMotor(); //stop de robot
-    }
+    // if (m_timer.get() < 2) { //for 2 seconds
+    //   m_robotDrive.arcadeDrive(0.5, 0.0, false); //make robot GO!!
+    // } else {
+    //   m_robotDrive.stopMotor(); //stop de robot
+    // }
   }
 
   @Override
@@ -52,7 +51,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    m_robotDrive.arcadeDrive(-m_Controller.getLeftY(), -m_Controller.getLeftX());
+    // SmartDashboard.putNumber("test",m_leftDrive.getSelectedSensorPosition(0));
+    m_drivetrain.arcadeDrive(-m_Controller.getLeftY(), -m_Controller.getLeftX());;
   }
 
   @Override
