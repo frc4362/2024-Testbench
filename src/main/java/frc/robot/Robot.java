@@ -51,8 +51,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    // SmartDashboard.putNumber("test",m_leftDrive.getSelectedSensorPosition(0));
-    m_drivetrain.arcadeDrive(-m_Controller.getLeftY(), -m_Controller.getLeftX());;
+    //m_drivetrain.arcadeDrive(-m_Controller.getLeftY(), -m_Controller.getLeftX());
+    m_drivetrain.velocityDrive(50); //1rps = 3/25v
   }
 
   @Override
