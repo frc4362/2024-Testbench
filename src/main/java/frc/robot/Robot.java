@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import pabeles.concurrency.IntOperatorTask.Max;
 
 import java.sql.Time;
 
@@ -25,6 +26,7 @@ public class Robot extends TimedRobot {
   private final Drivetrain m_drivetrain = new Drivetrain();
   private final XboxController m_Controller = new XboxController(0);
   private final Timer m_timer = new Timer();
+  private final Tachometer m_Tachometer = new Tachometer();
 
 
   @Override
@@ -51,8 +53,18 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
+    m_Tachometer.update();
     //m_drivetrain.arcadeDrive(-m_Controller.getLeftY(), -m_Controller.getLeftX());
-    m_drivetrain.velocityDrive(50); //1rps = 3/25v
+    double goal = 50*m_Controller.getLeftY();
+    if (goal < 2.0 && goal > -2.0) {
+      goal = 0.0;
+    }
+    SmartDashboard.putNumber("goal speed", goal);
+    SmartDashboard.putNumber("ratio real to goal", m_drivetrain.getLeftVelocity()/(goal));
+    m_drivetrain.velocityDrive(goal);
+
+    SmartDashboard.putBoolean("BROKEN", m_Tachometer.isBroken());
+    SmartDashboard.putNumber("break count", m_Tachometer.getBreakCount());
   }
 
   @Override
