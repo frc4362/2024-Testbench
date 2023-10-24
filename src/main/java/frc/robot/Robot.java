@@ -53,18 +53,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() {
-    m_Tachometer.update();
     //m_drivetrain.arcadeDrive(-m_Controller.getLeftY(), -m_Controller.getLeftX());
-    double goal = 50*m_Controller.getLeftY();
-    if (goal < 2.0 && goal > -2.0) {
-      goal = 0.0;
-    }
-    SmartDashboard.putNumber("goal speed", goal);
-    SmartDashboard.putNumber("ratio real to goal", m_drivetrain.getLeftVelocity()/(goal));
-    m_drivetrain.velocityDrive(goal);
 
-    SmartDashboard.putBoolean("BROKEN", m_Tachometer.isBroken());
-    SmartDashboard.putNumber("break count", m_Tachometer.getBreakCount());
+    // double goal = 50*m_Controller.getLeftY();
+    // if (goal < 2.0 && goal > -2.0) {
+    //   goal = 0.0;
+    // }
+    // SmartDashboard.putNumber("goal speed", goal);
+    // SmartDashboard.putNumber("ratio real to goal", m_drivetrain.getLeftVelocity()/(goal));
+    // m_drivetrain.velocityDrive(goal);
+
+    m_drivetrain.mimicRotation();
+
+    // m_Tachometer.update();
+    // SmartDashboard.putBoolean("BROKEN", m_Tachometer.isBroken());
+    // SmartDashboard.putNumber("break count", m_Tachometer.getBreakCount());
   }
 
   @Override

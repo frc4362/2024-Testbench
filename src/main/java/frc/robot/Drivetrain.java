@@ -59,4 +59,8 @@ public class Drivetrain {
         //25 * 0.0125 volts = 33.6 rotations per second
         //m_leftDrive.set(.11*rotationsPerSecond);
     }
+    
+    public void mimicRotation() {
+        m_leftDrive.set(pid.calculate(ticksToRPS(m_leftDrive.getSelectedSensorVelocity()), ticksToRPS(m_rightDrive.getSelectedSensorVelocity())));
+    }
 }
