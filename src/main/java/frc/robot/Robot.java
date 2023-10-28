@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
   private final Timer m_timer = new Timer();
   private final Tachometer m_Tachometer = new Tachometer();
 
+  private double desiredRotations;
 
   @Override
   public void robotInit() {
@@ -49,11 +50,23 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopInit() {}
+  public void teleopInit() {
+    desiredRotations = 0;
+    m_drivetrain.zeroMotors();
+  }
 
   @Override
   public void teleopPeriodic() {
-    //m_drivetrain.arcadeDrive(-m_Controller.getLeftY(), -m_Controller.getLeftX());
+    if (m_Controller.getAButtonPressed()) {
+      desiredRotations += .25;
+    }
+    if (m_Controller.getBButtonPressed()) {
+      desiredRotations += 1;
+    }
+    m_drivetrain.positionDrive(desiredRotations);
+    SmartDashboard.putNumber("goal speed", desiredRotations);
+
+    // m_drivetrain.arcadeDrive(-m_Controller.getLeftY(), -m_Controller.getLeftX());
 
     // double goal = 50*m_Controller.getLeftY();
     // if (goal < 2.0 && goal > -2.0) {
@@ -63,7 +76,7 @@ public class Robot extends TimedRobot {
     // SmartDashboard.putNumber("ratio real to goal", m_drivetrain.getLeftVelocity()/(goal));
     // m_drivetrain.velocityDrive(goal);
 
-    m_drivetrain.mimicRotation();
+    // m_drivetrain.mimicRotation();
 
     // m_Tachometer.update();
     // SmartDashboard.putBoolean("BROKEN", m_Tachometer.isBroken());
